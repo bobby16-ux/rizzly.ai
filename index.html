@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Rizzly AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🔥 Rizzly AI</h1>
+<p>Rispondi ai messaggi meglio di chiunque</p>
+
+<textarea id="inputText" placeholder="Incolla il messaggio..."></textarea>
+
+<button onclick="generate()">Genera risposta</button>
+
+<div class="output">
+  <div class="box">
+    <h3>😏 Flirty</h3>
+    <p id="flirty"></p>
+    <button onclick="copyText('flirty')">Copia</button>
+  </div>
+
+  <div class="box">
+    <h3>😂 Funny</h3>
+    <p id="funny"></p>
+    <button onclick="copyText('funny')">Copia</button>
+  </div>
+
+  <div class="box">
+    <h3>🧠 Smart</h3>
+    <p id="smart"></p>
+    <button onclick="copyText('smart')">Copia</button>
+  </div>
+</div>
+
+<script>
+async function generate() {
+  const text = document.getElementById("inputText").value;
+
+  const res = await fetch("/api/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message: text })
+  });
+
+  const data = await res.json();
+  const reply = data.choices[0].message.content;
+
+  const parts = reply.split("\n");
+
+  document.getElementById("flirty").innerText = parts[0] || "";
+  document.getElementById("funny").innerText = parts[1] || "";
+  document.getElementById("smart").innerText = parts[2] || "";
+}
+
+function copyText(id) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text);
+  alert("Copiato!");
+}
+</script>
+
+</body>
+</html>
