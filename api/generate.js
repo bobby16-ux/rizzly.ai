@@ -39,7 +39,7 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Errore OpenAI:", errorText);
-      return res.status(500).json({ error: errorText });
+      return res.status(500).json({ reply: "Errore API OpenAI" });
     }
 
     const data = await response.json();
@@ -50,6 +50,6 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error("Errore server:", error);
-    return res.status(500).json({ error: "Errore interno" });
+    return res.status(500).json({ reply: "Errore server" });
   }
 }
