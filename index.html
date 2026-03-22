@@ -49,7 +49,7 @@ async function generate() {
   const data = await res.json();
   const reply = data.reply;
 
-  const parts = reply.split("\n");
+  const parts = reply.split("|");
 
   document.getElementById("flirty").innerText = parts[0] || "";
   document.getElementById("funny").innerText = parts[1] || "";
