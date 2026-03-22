@@ -18,12 +18,21 @@ export default async function handler(req, res) {
       }),
     });
 
+    // 🔴 CONTROLLO ERRORE
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Errore OpenAI:", errorText);
+      return res.status(500).json({ error: errorText });
+    }
+
     const data = await response.json();
 
-    res.status(200).json({
-      reply: data.choices[0].message.content,
-    });
+    const reply = data.choices[0].message.content;
+
+    return res.status(200).json({ reply });
+
   } catch (error) {
-    res.status(500).json({ error: "Errore server" });
+    console.error("Errore server:", error);
+    return res.status(500).json({ error: "Errore interno" });
   }
 }
