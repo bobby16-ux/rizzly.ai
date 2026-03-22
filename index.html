@@ -47,7 +47,7 @@ async function generate() {
   });
 
   const data = await res.json();
-  const reply = data.choices[0].message.content;
+  const reply = data.reply;
 
   const parts = reply.split("\n");
 
